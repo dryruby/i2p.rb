@@ -26,7 +26,7 @@ GEMSPEC = Gem::Specification.new do |gem|
   gem.has_rdoc           = false
 
   gem.required_ruby_version      = '>= 1.8.1'
-  gem.requirements               = ['I2P (>= 0.8.0)']
+  gem.requirements               = ['I2P (>= 0.7.3)']
   gem.add_development_dependency 'yard',  '>= 0.5.8'
   gem.add_development_dependency 'rspec', '>= 1.3.0'
   gem.post_install_message       = nil
