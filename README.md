@@ -8,6 +8,8 @@ This is a Ruby library for interacting with the [I2P][] anonymity network.
 Features
 --------
 
+* Supports checking whether I2P is installed in the user's current `PATH`,
+  and whether it is currently running.
 * Implements the basics of the [I2P Simple Anonymous Messaging (SAM)][SAM]
   protocol.
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
@@ -17,6 +19,10 @@ Examples
 
     require 'rubygems'
     require 'i2p'
+
+### Checking whether an I2P router is running locally
+
+    I2P.running?        #=> true
 
 ### Generating a new key pair and I2P destination
 
@@ -51,6 +57,16 @@ To install the latest official release of I2P.rb, do:
 
     % [sudo] gem install i2p                 # Ruby 1.8.7+ or 1.9.x
     % [sudo] gem install backports i2p       # Ruby 1.8.1+
+
+Environment
+-----------
+
+The following are the default values for environment variables that let
+you customize I2P.rb's implicit configuration:
+
+    $ export I2P_PATH=$PATH
+    $ export I2P_SAM_HOST=127.0.0.1
+    $ export I2P_SAM_PORT=7656
 
 Download
 --------
