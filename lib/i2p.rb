@@ -1,3 +1,5 @@
+require 'socket'
+
 if RUBY_VERSION < '1.8.7'
   # @see http://rubygems.org/gems/backports
   begin
@@ -14,6 +16,7 @@ end
 
 module I2P
   autoload :Key,     'i2p/key'
+  autoload :BOB,     'i2p/bob'
   autoload :SAM,     'i2p/sam'
   autoload :VERSION, 'i2p/version'
 

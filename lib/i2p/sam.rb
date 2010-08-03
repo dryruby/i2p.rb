@@ -1,5 +1,3 @@
-require 'socket' unless defined?(Socket)
-
 module I2P
   ##
   # I2P Simple Anonymous Messaging (SAM) protocol.

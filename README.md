@@ -65,6 +65,8 @@ The following are the default values for environment variables that let
 you customize I2P.rb's implicit configuration:
 
     $ export I2P_PATH=$PATH
+    $ export I2P_BOB_HOST=127.0.0.1
+    $ export I2P_BOB_PORT=2827
     $ export I2P_SAM_HOST=127.0.0.1
     $ export I2P_SAM_PORT=7656
 
