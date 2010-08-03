@@ -6,7 +6,7 @@ GEMSPEC = Gem::Specification.new do |gem|
   gem.date               = File.mtime('VERSION').strftime('%Y-%m-%d')
 
   gem.name               = 'i2p'
-  gem.homepage           = 'http://github.com/bendiken/i2p-ruby'
+  gem.homepage           = 'http://cypherpunk.rubyforge.org/i2p/'
   gem.license            = 'Public Domain' if gem.respond_to?(:license=)
   gem.summary            = 'Anonymous networking for Ruby.'
   gem.description        = 'I2P.rb is a pure-Ruby library for interacting with the I2P anonymity network.'
