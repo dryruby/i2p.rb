@@ -13,5 +13,6 @@ if RUBY_VERSION < '1.8.7'
 end
 
 module I2P
+  autoload :Key,     'i2p/key'
   autoload :VERSION, 'i2p/version'
 end
