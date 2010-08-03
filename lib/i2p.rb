@@ -14,5 +14,6 @@ end
 
 module I2P
   autoload :Key,     'i2p/key'
+  autoload :SAM,     'i2p/sam'
   autoload :VERSION, 'i2p/version'
 end

@@ -8,6 +8,8 @@ This is a Ruby library for interacting with the [I2P][] anonymity network.
 Features
 --------
 
+* Implements the basics of the [I2P Simple Anonymous Messaging (SAM)][SAM]
+  protocol.
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
 
 Examples
@@ -15,6 +17,20 @@ Examples
 
     require 'rubygems'
     require 'i2p'
+
+### Generating a new key pair and I2P destination
+
+    I2P::SAM::Client.open(:port => 7656) do |sam|
+      private_key, public_key = sam.generate_destination
+      puts "PRIVATE KEY:\n#{private_key}"
+      puts "PUBLIC KEY:\n#{public_key}"
+    end
+
+### Looking up the public key for an I2P name
+
+    I2P::SAM::Client.open(:port => 7656) do |sam|
+      puts sam.lookup_name("forum.i2p").to_s
+    end
 
 Documentation
 -------------
@@ -60,4 +76,5 @@ I2P.rb is free and unencumbered public domain software. For more
 information, see <http://unlicense.org/> or the accompanying UNLICENSE file.
 
 [I2P]:       http://www.i2p2.de/
+[SAM]:       http://www.i2p2.de/samv3.html
 [Backports]: http://rubygems.org/gems/backports
