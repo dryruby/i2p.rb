@@ -27,6 +27,7 @@ end
 #
 # @see http://www.i2p2.de/download.html
 module I2P
+  autoload :Hosts,   'i2p/hosts'
   autoload :Key,     'i2p/key'
   autoload :BOB,     'i2p/bob'
   autoload :SAM,     'i2p/sam'

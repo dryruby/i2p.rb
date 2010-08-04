@@ -13,6 +13,7 @@ Features
 * Supports starting, restarting and stopping the I2P router daemon.
 * Implements the basics of the [I2P Simple Anonymous Messaging (SAM)][SAM]
   protocol.
+* Supports I2P name resolution using both `hosts.txt` as well as SAM.
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
 
 Examples
@@ -32,18 +33,22 @@ Examples
     I2P.restart!        #=> executes `i2prouter restart`
     I2P.stop!           #=> executes `i2prouter stop`
 
-### Generating a new key pair and I2P destination
+### Looking up the public key for an I2P name from hosts.txt
+
+    puts I2P::Hosts["forum.i2p"]
+
+### Looking up the public key for an I2P name using SAM
+
+    I2P::SAM::Client.open(:port => 7656) do |sam|
+      puts sam.lookup_name("forum.i2p")
+    end
+
+### Generating a new key pair and I2P destination using SAM
 
     I2P::SAM::Client.open(:port => 7656) do |sam|
       private_key, public_key = sam.generate_destination
       puts "PRIVATE KEY:\n#{private_key}"
       puts "PUBLIC KEY:\n#{public_key}"
-    end
-
-### Looking up the public key for an I2P name
-
-    I2P::SAM::Client.open(:port => 7656) do |sam|
-      puts sam.lookup_name("forum.i2p").to_s
     end
 
 Documentation
