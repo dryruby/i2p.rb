@@ -9,7 +9,7 @@ GEMSPEC = Gem::Specification.new do |gem|
   gem.homepage           = 'http://cypherpunk.rubyforge.org/i2p/'
   gem.license            = 'Public Domain' if gem.respond_to?(:license=)
   gem.summary            = 'Anonymous networking for Ruby.'
-  gem.description        = 'I2P.rb is a pure-Ruby library for interacting with the I2P anonymity network.'
+  gem.description        = 'I2P.rb is a Ruby library for interacting with the I2P anonymity network.'
   gem.rubyforge_project  = 'cypherpunk'
 
   gem.author             = 'Arto Bendiken'
