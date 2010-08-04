@@ -70,8 +70,8 @@ module I2P; module SAM
     end
 
     ##
-    # Returns `true` if a connection to the SAM bridge has been
-    # established and is active.
+    # Returns `true` if a connection to the SAM bridge has been established
+    # and is active.
     #
     # @example
     #   sam.connected?             #=> true
@@ -87,14 +87,14 @@ module I2P; module SAM
     # Establishes a connection to the SAM bridge.
     #
     # If called after the connection has already been established,
-    # disconnects and reconnects to the bridge.
+    # disconnects and then reconnects to the bridge.
     #
     # @example
     #   sam.connect
     #
     # @return [void]
     def connect
-      disconnect
+      disconnect if connected?
       @socket = TCPSocket.new(@host, @port)
       @socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, true)
       self
@@ -104,8 +104,7 @@ module I2P; module SAM
     ##
     # Closes the connection to the SAM bridge.
     #
-    # If called after the connection has already been closed, does
-    # nothing.
+    # If called after the connection has already been closed, does nothing.
     #
     # @example
     #   sam.disconnect
@@ -142,8 +141,7 @@ module I2P; module SAM
     end
 
     ##
-    # Returns the public key of the I2P destination corresponding to
-    # `name`.
+    # Returns the public key of the I2P destination corresponding to `name`.
     #
     # @example
     #   sam.lookup_name("forum.i2p")         #=> #<I2P::Key::Public:...>

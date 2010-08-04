@@ -65,5 +65,53 @@ module I2P; module BOB
 
       block.call(self) if block_given?
     end
+
+    ##
+    # Returns `true` if a connection to the BOB bridge has been established
+    # and is active.
+    #
+    # @example
+    #   bob.connected?             #=> true
+    #   bob.disconnect
+    #   bob.connected?             #=> false
+    #
+    # @return [Boolean]
+    def connected?
+      !!@socket
+    end
+
+    ##
+    # Establishes a connection to the BOB bridge.
+    #
+    # If called after the connection has already been established,
+    # disconnects and then reconnects to the bridge.
+    #
+    # @example
+    #   bob.connect
+    #
+    # @return [void]
+    def connect
+      disconnect if connected?
+      @socket = TCPSocket.new(@host, @port)
+      @socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, true)
+      self
+    end
+    alias_method :reconnect, :connect
+
+    ##
+    # Closes the connection to the BOB bridge.
+    #
+    # If called after the connection has already been closed, does nothing.
+    #
+    # @example
+    #   bob.disconnect
+    #
+    # @return [void]
+    def disconnect
+      @socket.close if @socket && !@socket.closed?
+      @socket = nil
+      self
+    end
+    alias_method :close, :disconnect
   end
 end; end
