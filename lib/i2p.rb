@@ -15,6 +15,17 @@ if RUBY_VERSION < '1.8.7'
   end
 end
 
+##
+# @example Checking whether an I2P router is running locally
+#   I2P.available?      #=> true, if the I2P router is installed
+#   I2P.running?        #=> true, if the I2P router is running
+#
+# @example Starting and stopping the local I2P router daemon
+#   I2P.start!          #=> executes `i2prouter start`
+#   I2P.restart!        #=> executes `i2prouter restart`
+#   I2P.stop!           #=> executes `i2prouter stop`
+#
+# @see http://www.i2p2.de/download.html
 module I2P
   autoload :Key,     'i2p/key'
   autoload :BOB,     'i2p/bob'
@@ -87,8 +98,8 @@ module I2P
   end
 
   ##
-  # Restarts the local I2P router daemon, starting it if it wasn't already
-  # running.
+  # Restarts the local I2P router daemon, starting it in case it wasn't
+  # already running.
   #
   # Returns `true` if the I2P router daemon was successfully restarted,
   # `false` otherwise.
