@@ -8,8 +8,9 @@ This is a Ruby library for interacting with the [I2P][] anonymity network.
 Features
 --------
 
-* Supports checking whether I2P is installed in the user's current `PATH`,
-  and whether it is currently running.
+* Supports checking whether I2P is installed in the user's current `PATH`
+  and whether the I2P router is currently running.
+* Supports starting, restarting and stopping the I2P router daemon.
 * Implements the basics of the [I2P Simple Anonymous Messaging (SAM)][SAM]
   protocol.
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
@@ -23,7 +24,13 @@ Examples
 ### Checking whether an I2P router is running locally
 
     I2P.available?      #=> true, if the I2P router is installed
-    I2P.running?        #=> true, if the I2P router is running locally
+    I2P.running?        #=> true, if the I2P router is running
+
+### Starting and stopping the local I2P router daemon
+
+    I2P.start!          #=> executes `i2prouter start`
+    I2P.restart!        #=> executes `i2prouter restart`
+    I2P.stop!           #=> executes `i2prouter stop`
 
 ### Generating a new key pair and I2P destination
 

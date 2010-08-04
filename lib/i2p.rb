@@ -68,6 +68,62 @@ module I2P
   end
 
   ##
+  # Starts the local I2P router daemon.
+  #
+  # Returns the process identifier (PID) if the I2P router daemon was
+  # successfully started, `nil` otherwise.
+  #
+  # This relies on being able to execute `i2prouter start`, which requires
+  # the `i2prouter` executable to be located in the user's current `PATH`
+  # environment.
+  #
+  # @return [Integer]
+  # @since  0.1.1
+  def self.start!
+    if available?
+      `#{program_path} start` unless running?
+      `#{program_path} status` =~ /is running \((\d+)\)/ ? $1.to_i : nil
+    end
+  end
+
+  ##
+  # Restarts the local I2P router daemon, starting it if it wasn't already
+  # running.
+  #
+  # Returns `true` if the I2P router daemon was successfully restarted,
+  # `false` otherwise.
+  #
+  # This relies on being able to execute `i2prouter restart`, which requires
+  # the `i2prouter` executable to be located in the user's current `PATH`
+  # environment.
+  #
+  # @return [Boolean]
+  # @since  0.1.1
+  def self.restart!
+    if available?
+      /Starting I2P Service/ === `#{program_path} restart`
+    end
+  end
+
+  ##
+  # Stops the local I2P router daemon.
+  #
+  # Returns `true` if the I2P router daemon was successfully shut down,
+  # `false` otherwise.
+  #
+  # This relies on being able to execute `i2prouter stop`, which requires
+  # the `i2prouter` executable to be located in the user's current `PATH`
+  # environment.
+  #
+  # @return [Boolean]
+  # @since  0.1.1
+  def self.stop!
+    if available?
+      /Stopped I2P Service/ === `#{program_path} stop`
+    end
+  end
+
+  ##
   # Returns the path to the `i2prouter` executable.
   #
   # Returns `nil` if the program could not be located in any of the
