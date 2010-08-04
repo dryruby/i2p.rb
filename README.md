@@ -60,7 +60,7 @@ Dependencies
 ------------
 
 * [Ruby](http://ruby-lang.org/) (>= 1.8.7) or (>= 1.8.1 with [Backports][])
-* [I2P](http://www.i2p2.de/download.html) (>= 0.7.3)
+* [I2P](http://www.i2p2.de/download.html) (>= 0.8)
 
 Installation
 ------------
