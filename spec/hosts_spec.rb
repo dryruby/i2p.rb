@@ -87,13 +87,13 @@ describe I2P::Hosts do
     end
 
     it "returns an enumerator" do
-      @hosts.each { |k, v| }.should be_an(Enumerator)
+      @hosts.each { |k, v| }.should be_an(defined?(Enumerator) ? Enumerator : Enumerable::Enumerator)
     end
   end
 
   describe "I2P::Hosts#each without a block" do
     it "returns an enumerator" do
-      @hosts.each.should be_an(Enumerator)
+      @hosts.each.should be_an(defined?(Enumerator) ? Enumerator : Enumerable::Enumerator)
     end
   end
 

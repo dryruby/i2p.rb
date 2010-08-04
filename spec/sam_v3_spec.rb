@@ -5,18 +5,18 @@ describe I2P::SAM::Client do
 
   describe "I2P::SAM::Client.open" do
     it "returns a new SAM client instance" do
-      Client.open.should be_a(Client)
+      SAM::Client.open.should be_a(SAM::Client)
     end
   end
 
   describe "I2P::SAM::Client.new" do
     it "returns a new SAM client instance" do
-      Client.new.should be_a(Client)
+      SAM::Client.new.should be_a(SAM::Client)
     end
   end
 
   before :each do
-    @client = Client.new
+    @client = SAM::Client.new
   end
 
   describe "I2P::SAM::Client#connected?" do
@@ -87,7 +87,7 @@ describe I2P::SAM::Client do
 
   describe "I2P::SAM::Client#hello with an invalid version" do
     it "raises a ProtocolNotSupported error" do
-      lambda { @client.hello(:min => 9, :max => 9) }.should raise_error(Error::ProtocolNotSupported)
+      lambda { @client.hello(:min => 9, :max => 9) }.should raise_error(SAM::Error::ProtocolNotSupported)
     end
   end
 
@@ -107,7 +107,7 @@ describe I2P::SAM::Client do
     before(:each) { @client.hello }
 
     it "raises a KeyNotFound error" do
-      lambda { @client.lookup_name('foobar.i2p') }.should raise_error(Error::KeyNotFound)
+      lambda { @client.lookup_name('foobar.i2p') }.should raise_error(SAM::Error::KeyNotFound)
     end
   end
 
@@ -115,7 +115,7 @@ describe I2P::SAM::Client do
     before(:each) { @client.hello }
 
     it "raises a KeyNotFound error" do
-      lambda { @client.lookup_name('123') }.should raise_error(Error::KeyNotFound)
+      lambda { @client.lookup_name('123') }.should raise_error(SAM::Error::KeyNotFound)
     end
   end
 
