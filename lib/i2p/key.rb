@@ -17,6 +17,20 @@ module I2P
     end
 
     ##
+    # @param  [Object] other
+    # @return [Boolean]
+    def eql?(other)
+      other.is_a?(Key) && self == other
+    end
+
+    ##
+    # @param  [Object] other
+    # @return [Boolean]
+    def ==(other)
+      to_s == other.to_s
+    end
+
+    ##
     # @return [String]
     def to_s
       base64 = [@data].pack('m').delete("\n")
