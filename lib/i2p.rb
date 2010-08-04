@@ -1,3 +1,4 @@
+require 'pathname'
 require 'socket'
 
 if RUBY_VERSION < '1.8.7'
@@ -20,31 +21,14 @@ module I2P
   autoload :SAM,     'i2p/sam'
   autoload :VERSION, 'i2p/version'
 
-  ##
-  # Returns `true` if the I2P router is running locally, `false` otherwise.
-  #
-  # This works by attempting to establish a Simple Anonymous Messaging (SAM)
-  # protocol connection to the standard SAM port 7656 on `localhost`. If
-  # I2P hasn't been configured with SAM enabled, this will return `false`.
-  #
-  # @example
-  #   I2P.running?      #=> false
-  #
-  # @return [Boolean]
-  def self.running?
-    begin
-      I2P::SAM::Client.new.disconnect
-      true
-    rescue Errno::ECONNREFUSED
-      false
-    end
-  end
+  # The path used to locate the `i2prouter` executable.
+  PATH = (ENV['I2P_PATH'] || ENV['PATH']).split(File::PATH_SEPARATOR) unless defined?(PATH)
 
   ##
   # Returns `true` if I2P is available, `false` otherwise.
   #
-  # This works by attempting to locate the `i2prouter` executable in the
-  # user's current `PATH` environment.
+  # This attempts to locate the `i2prouter` executable in the user's current
+  # `PATH` environment.
   #
   # @example
   #   I2P.available?    #=> true
@@ -55,19 +39,55 @@ module I2P
   end
 
   ##
-  # Returns the path to the `i2prouter` executable, or `nil` if the program
-  # could not be found in the user's current `PATH` environment.
+  # Returns `true` if the I2P router is running locally, `false` otherwise.
+  #
+  # This first attempts to call `i2prouter status` if the executable can be
+  # located in the user's current `PATH` environment, falling back to
+  # attempting to establish a Simple Anonymous Messaging (SAM) protocol
+  # connection to the standard SAM port 7656 on `localhost`.
+  #
+  # If I2P isn't in the `PATH` and hasn't been configured with SAM enabled,
+  # this will return `false` regardless of whether I2P actually is running
+  # or not.
+  #
+  # @example
+  #   I2P.running?      #=> false
+  #
+  # @return [Boolean]
+  def self.running?
+    if available?
+      /is running/ === `#{program_path} status`.chomp
+    else
+      begin
+        I2P::SAM::Client.open.disconnect
+        true
+      rescue Errno::ECONNREFUSED
+        false
+      end
+    end
+  end
+
+  ##
+  # Returns the path to the `i2prouter` executable.
+  #
+  # Returns `nil` if the program could not be located in any of the
+  # directories denoted by the user's current `I2P_PATH` or `PATH`
+  # environment variables.
   #
   # @example
   #   I2P.program_path  #=> "/opt/local/bin/i2prouter"
   #
   # @param  [String, #to_s] program_name
-  # @return [String]
+  # @return [Pathname]
   def self.program_path(program_name = :i2prouter)
-    (ENV['I2P_PATH'] || ENV['PATH']).split(File::PATH_SEPARATOR).each do |path|
-      program_path = File.join(path, program_name.to_s)
-      return program_path if File.executable?(program_path)
+    program_name = program_name.to_s
+    @program_paths ||= {}
+    @program_paths[program_name] ||= begin
+      PATH.find do |dir|
+        if File.executable?(file = File.join(dir, program_name))
+          break Pathname(file)
+        end
+      end
     end
-    return nil
   end
 end

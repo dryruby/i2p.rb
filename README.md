@@ -22,7 +22,8 @@ Examples
 
 ### Checking whether an I2P router is running locally
 
-    I2P.running?        #=> true
+    I2P.available?      #=> true, if the I2P router is installed
+    I2P.running?        #=> true, if the I2P router is running locally
 
 ### Generating a new key pair and I2P destination
 
