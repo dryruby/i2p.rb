@@ -71,4 +71,14 @@ describe I2P::BOB do
       @client.connect.should equal(@client)
     end
   end
+
+  describe "I2P::BOB::Client#verify" do
+    it "returns true for valid keys" do
+      @client.verify(I2P::Hosts['forum.i2p']).should be_true
+    end
+
+    it "returns false for invalid keys" do
+      @client.verify('foobar').should be_false
+    end
+  end
 end

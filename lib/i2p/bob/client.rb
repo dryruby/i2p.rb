@@ -71,9 +71,9 @@ module I2P; module BOB
     # and is active.
     #
     # @example
-    #   bob.connected?             #=> true
+    #   bob.connected?                       #=> true
     #   bob.disconnect
-    #   bob.connected?             #=> false
+    #   bob.connected?                       #=> false
     #
     # @return [Boolean]
     def connected?
@@ -124,12 +124,37 @@ module I2P; module BOB
     #
     # @return [void]
     def quit
-      send_line(:quit)
-      read_line # "OK Bye!"
+      send_command(:quit)
+      read_response # "Bye!"
       disconnect
     end
 
+    ##
+    # Verifies a Base64-formatted public key, returning `true` if the key is
+    # valid.
+    #
+    # @example
+    #   bob.verify("foobar")                 #=> false
+    #   bob.verify(I2P::Hosts["forum.i2p"])  #=> true
+    #
+    # @param  [Key, #to_s] key
+    # @return [Boolean]
+    def verify(key)
+      send_command(:verify, key.to_s)
+      read_response rescue false
+    end
+
   protected
+
+    ##
+    # Sends a command over the BOB bridge socket.
+    #
+    # @param  [String, #to_s] command
+    # @param  [Array<#to_s>]  args
+    # @return [void]
+    def send_command(command, *args)
+      send_line([command.to_s, *args].join(' '))
+    end
 
     ##
     # Sends a command line over the BOB bridge socket.
@@ -142,6 +167,20 @@ module I2P; module BOB
       @socket.write(line.to_s + "\n")
       @socket.flush
       self
+    end
+
+    ##
+    # Reads a response from the BOB bridge socket.
+    #
+    # @return [Object]
+    # @raise  [Error] on an ERROR response
+    def read_response
+      case line = read_line
+        when 'OK'             then true
+        when /^OK\s*(.*)$/    then $1.strip
+        when /^ERROR\s+(.*)$/ then raise Error.new($1.strip)
+        else line
+      end
     end
 
     ##
