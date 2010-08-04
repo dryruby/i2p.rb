@@ -1,6 +1,6 @@
 module I2P; module SAM
   ##
-  # I2P Simple Anonymous Messaging (SAM) V3 client.
+  # **I2P Simple Anonymous Messaging (SAM) V3 client.**
   #
   # @example Connecting to the I2P SAM bridge (1)
   #   sam = I2P::SAM::Client.new(:port => 7656)
@@ -16,10 +16,10 @@ module I2P; module SAM
     ##
     # Establishes a connection to the SAM bridge.
     #
-    # @example
+    # @example Connecting to the default port
     #   sam = I2P::SAM::Client.open
     #
-    # @example
+    # @example Connecting to the given port
     #   sam = I2P::SAM::Client.open(:port => 7656)
     #
     # @param  [Hash{Symbol => Object}] options

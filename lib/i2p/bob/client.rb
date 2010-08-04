@@ -1,6 +1,6 @@
 module I2P; module BOB
   ##
-  # I2P Basic Open Bridge (BOB) client.
+  # **I2P Basic Open Bridge (BOB) client.**
   #
   # @example Connecting to the I2P BOB bridge (1)
   #   bob = I2P::BOB::Client.new(:port => 2827)
