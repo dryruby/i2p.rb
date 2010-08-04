@@ -94,6 +94,8 @@ module I2P; module BOB
       disconnect if connected?
       @socket = TCPSocket.new(@host, @port)
       @socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, true)
+      read_line # "BOB 00.00.0D"
+      read_line # "OK"
       self
     end
     alias_method :reconnect, :connect
@@ -113,5 +115,43 @@ module I2P; module BOB
       self
     end
     alias_method :close, :disconnect
+
+    ##
+    # Closes the connection to the BOB bridge cleanly.
+    #
+    # @example
+    #   bob.quit
+    #
+    # @return [void]
+    def quit
+      send_line(:quit)
+      read_line # "OK Bye!"
+      disconnect
+    end
+
+  protected
+
+    ##
+    # Sends a command line over the BOB bridge socket.
+    #
+    # @param  [String, #to_s] line
+    # @return [void]
+    def send_line(line)
+      connect unless connected?
+      warn "-> #{line}" if @options[:debug]
+      @socket.write(line.to_s + "\n")
+      @socket.flush
+      self
+    end
+
+    ##
+    # Reads a response line from the BOB bridge socket.
+    #
+    # @return [String]
+    def read_line
+      line = @socket.readline.chomp
+      warn "<- #{line}" if @options[:debug]
+      line
+    end
   end
 end; end

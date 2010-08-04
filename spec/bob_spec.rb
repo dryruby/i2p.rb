@@ -54,4 +54,21 @@ describe I2P::BOB do
       @client.connect.should equal(@client)
     end
   end
+
+  describe "I2P::BOB::Client#quit" do
+    it "raises no errors" do
+      lambda { @client.quit }.should_not raise_error
+    end
+
+    it "disconnects from the BOB bridge" do
+      @client.connect
+      @client.should be_connected
+      @client.quit
+      @client.should_not be_connected
+    end
+
+    it "returns self" do
+      @client.connect.should equal(@client)
+    end
+  end
 end
