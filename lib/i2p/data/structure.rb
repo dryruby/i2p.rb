@@ -7,6 +7,17 @@ module I2P
   # @see http://docs.i2p2.de/core/net/i2p/data/DataStructure.html
   # @see http://docs.i2p2.de/core/net/i2p/data/DataStructureImpl.html
   class Structure
-    # TODO
+    ##
+    # Returns the byte size of this data structure.
+    #
+    # @return [Integer]
+    def size
+      if self.class.const_defined?(:BYTESIZE)
+        self.class.const_get(:BYTESIZE)
+      else
+        raise NotImplementedError.new("#{self.class}#size")
+      end
+    end
+    alias_method :bytesize, :size
   end
 end
