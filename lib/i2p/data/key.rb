@@ -21,6 +21,14 @@ module I2P
     end
 
     ##
+    # Returns `true` if this key is of the correct size.
+    #
+    # @return [Boolean]
+    def valid?
+      @data.size.eql?(self.class.const_get(:BYTESIZE))
+    end
+
+    ##
     # Returns the binary string representation of this key.
     #
     # @return [String]
