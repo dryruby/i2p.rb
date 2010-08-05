@@ -2,12 +2,12 @@ module I2P
   ##
   class Key < Structure
     ##
-    # @param  [String] base64
+    # Reads a key data structure from the given `input` stream.
+    #
+    # @param  [IO, StringIO] input
     # @return [Key]
-    def self.parse(base64)
-      base64.gsub!('~', '/')
-      base64.gsub!('-', '+')
-      self.new(base64.unpack('m').first)
+    def self.read(input)
+      self.new(input.read(const_get(:BYTESIZE)))
     end
 
     ##

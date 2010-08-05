@@ -8,6 +8,27 @@ module I2P
   # @see http://docs.i2p2.de/core/net/i2p/data/DataStructureImpl.html
   class Structure
     ##
+    # Parses a data structure from the given `base64` string.
+    #
+    # @param  [String, #to_s] base64
+    # @return [Structure]
+    def self.parse(base64)
+      base64 = base64.dup
+      base64.gsub!('~', '/')
+      base64.gsub!('-', '+')
+      self.read(StringIO.new(base64.unpack('m').first))
+    end
+
+    ##
+    # Reads a data structure from the given `input` stream.
+    #
+    # @param  [IO, StringIO] input
+    # @return [Structure]
+    def self.read(input)
+      raise NotImplementedError.new("#{self}.read")
+    end
+
+    ##
     # Returns the byte size of this data structure.
     #
     # @return [Integer]

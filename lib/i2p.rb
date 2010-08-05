@@ -1,5 +1,6 @@
 require 'pathname'
 require 'socket'
+require 'stringio'
 
 if RUBY_VERSION < '1.8.7'
   # @see http://rubygems.org/gems/backports
