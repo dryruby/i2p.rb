@@ -53,5 +53,18 @@ module I2P
       1 + 2 + (payload ? payload.size : 0)
     end
     alias_method :bytesize, :size
+
+    ##
+    # Returns the binary string representation of this certificate.
+    #
+    # @return [String]
+    def to_s
+      StringIO.open do |buffer|
+        buffer.write([type].pack('c'))
+        buffer.write([payload.size].pack('n'))
+        buffer.write(payload) if payload
+        buffer.string
+      end
+    end
   end
 end

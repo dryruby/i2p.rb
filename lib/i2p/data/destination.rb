@@ -50,5 +50,18 @@ module I2P
       public_key.size + signing_key.size + certificate.size
     end
     alias_method :bytesize, :size
+
+    ##
+    # Returns the binary string representation of this destination.
+    #
+    # @return [String]
+    def to_s
+      StringIO.open do |buffer|
+        buffer.write(public_key.to_s)
+        buffer.write(signing_key.to_s)
+        buffer.write(certificate.to_s)
+        buffer.string
+      end
+    end
   end
 end

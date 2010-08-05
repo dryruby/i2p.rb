@@ -40,5 +40,24 @@ module I2P
       end
     end
     alias_method :bytesize, :size
+
+    ##
+    # Returns the Base64-encoded representation of this data structure.
+    #
+    # @return [String]
+    def to_base64
+      base64 = [to_s].pack('m').delete("\n")
+      base64.gsub!('/', '~')
+      base64.gsub!('+', '-')
+      base64
+    end
+
+    ##
+    # Returns the binary string representation of this data structure.
+    #
+    # @return [String]
+    def to_s
+      raise NotImplementedError.new("#{self.class}#to_s")
+    end
   end
 end

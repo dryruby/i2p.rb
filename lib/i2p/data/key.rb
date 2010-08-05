@@ -35,12 +35,11 @@ module I2P
     end
 
     ##
+    # Returns the binary string representation of this key.
+    #
     # @return [String]
     def to_s
-      base64 = [@data].pack('m').delete("\n")
-      base64.gsub!('/', '~')
-      base64.gsub!('+', '-')
-      base64
+      @data
     end
   end
 end
