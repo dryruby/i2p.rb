@@ -144,6 +144,34 @@ module I2P; module BOB
       read_response rescue false
     end
 
+    ##
+    # Creates a new tunnel nickname.
+    #
+    # @example
+    #   bob.setnick(:foo)
+    #
+    # @param  [String, #to_s] nick
+    # @return [void]
+    def setnick(nick)
+      send_command(:setnick, nick.to_s)
+      read_response # "Nickname set to #{nick}"
+      self
+    end
+
+    ##
+    # Selects an existing tunnel nickname.
+    #
+    # @example
+    #   bob.getnick(:foo)
+    #
+    # @param  [String, #to_s] nick
+    # @return [void]
+    def getnick(nick)
+      send_command(:getnick, nick.to_s)
+      read_response # "Nickname set to #{nick}"
+      self
+    end
+
   protected
 
     ##

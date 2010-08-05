@@ -81,4 +81,16 @@ describe I2P::BOB do
       @client.verify('foobar').should be_false
     end
   end
+
+  describe "I2P::BOB::Client#setnick" do
+    it "returns self" do
+      @client.setnick(:foo).should equal(@client)
+    end
+  end
+
+  describe "I2P::BOB::Client#getnick" do
+    it "returns self" do
+      @client.getnick(:foo).should equal(@client)
+    end
+  end
 end
