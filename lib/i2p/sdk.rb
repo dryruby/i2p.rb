@@ -1,4 +1,5 @@
 require 'java'
+require 'i2p'
 require 'i2p.jar'
 
 module I2P
