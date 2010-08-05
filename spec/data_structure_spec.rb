@@ -16,6 +16,14 @@ describe I2P::PrivateKey do
   # TODO
 end
 
+describe I2P::SigningPrivateKey do
+  # TODO
+end
+
 describe I2P::PublicKey do
+  # TODO
+end
+
+describe I2P::SigningPublicKey do
   # TODO
 end

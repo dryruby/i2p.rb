@@ -28,21 +28,23 @@ end
 # @see http://www.i2p2.de/download.html
 module I2P
   # Name resolution
-  autoload :Hosts,       'i2p/hosts'
+  autoload :Hosts,             'i2p/hosts'
 
   # Data structures
-  autoload :Structure,   'i2p/data/structure'
-  autoload :Certificate, 'i2p/data/certificate'
-  autoload :Key,         'i2p/data/key'
-  autoload :PrivateKey,  'i2p/data/private_key'
-  autoload :PublicKey,   'i2p/data/public_key'
+  autoload :Structure,         'i2p/data/structure'
+  autoload :Certificate,       'i2p/data/certificate'
+  autoload :Key,               'i2p/data/key'
+  autoload :PrivateKey,        'i2p/data/private_key'
+  autoload :SigningPrivateKey, 'i2p/data/signing_private_key'
+  autoload :PublicKey,         'i2p/data/public_key'
+  autoload :SigningPublicKey,  'i2p/data/signing_public_key'
 
   # Client protocols
-  autoload :BOB,         'i2p/bob'
-  autoload :SAM,         'i2p/sam'
+  autoload :BOB,               'i2p/bob'
+  autoload :SAM,               'i2p/sam'
 
   # Miscellaneous
-  autoload :VERSION,     'i2p/version'
+  autoload :VERSION,           'i2p/version'
 
   # The path used to locate the `i2prouter` executable.
   PATH = (ENV['I2P_PATH'] || ENV['PATH']).split(File::PATH_SEPARATOR) unless defined?(PATH)
