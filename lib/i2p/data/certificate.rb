@@ -61,8 +61,12 @@ module I2P
     def to_s
       StringIO.open do |buffer|
         buffer.write([type].pack('c'))
-        buffer.write([payload.size].pack('n'))
-        buffer.write(payload) if payload
+        if payload && !payload.empty?
+          buffer.write([payload.size].pack('n'))
+          buffer.write(payload.to_s)
+        else
+          buffer.write([0].pack('n'))
+        end
         buffer.string
       end
     end

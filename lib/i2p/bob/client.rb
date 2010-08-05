@@ -130,17 +130,17 @@ module I2P; module BOB
     end
 
     ##
-    # Verifies a Base64-formatted public key, returning `true` if the key is
-    # valid.
+    # Verifies a Base64-formatted key pair or destination, returning `true`
+    # for valid input.
     #
     # @example
     #   bob.verify("foobar")                 #=> false
     #   bob.verify(I2P::Hosts["forum.i2p"])  #=> true
     #
-    # @param  [Key, #to_s] key
+    # @param  [#to_base64, #to_s] data
     # @return [Boolean]
-    def verify(key)
-      send_command(:verify, key.to_s)
+    def verify(data)
+      send_command(:verify, data.respond_to?(:to_base64) ? data.to_base64 : data.to_s)
       read_response rescue false
     end
 

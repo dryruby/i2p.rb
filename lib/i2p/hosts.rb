@@ -19,13 +19,13 @@ module I2P
     DEFAULT_FILE = '~/.i2p/hosts.txt' # Unix only
 
     ##
-    # Looks up the I2P destination (public key) for `hostname`.
+    # Looks up the I2P destination for `hostname`.
     #
     # @example
     #   I2P::Hosts["forum.i2p"]
     #
     # @param  [String, #to_s] hostname
-    # @return [Key]
+    # @return [Destination]
     def self.[](hostname)
       self.open { |hosts| hosts[hostname] }
     end
@@ -98,33 +98,33 @@ module I2P
 
     ##
     # Returns `true` if `hosts.txt` includes `value`. The `value` can be
-    # either a hostname or an I2P destination (public key).
+    # either a hostname or an I2P destination.
     #
     # @example
     #   hosts.include?("forum.i2p")
     #
-    # @param  [Key, Regexp, #to_s] value
+    # @param  [Destination, Regexp, #to_s] value
     # @return [Boolean]
     def include?(value)
       case value
-        when Key    then each.any? { |k, v| value.eql?(v) }
-        when Regexp then each.any? { |k, v| value === k }
+        when Destination then each.any? { |k, v| value.eql?(v) }
+        when Regexp      then each.any? { |k, v| value === k }
         else each.any? { |k, v| value.to_s.eql?(k) }
       end
     end
 
     ##
-    # Returns the I2P destination (public key) for `hostname`.
+    # Returns the I2P destination for `hostname`.
     #
     # @example
     #   hosts["forum.i2p"]
     #
     # @param  [String, #to_s] hostname
-    # @return [Key]
+    # @return [Destination]
     def [](hostname)
       @cache[hostname.to_s] ||= each_line.find do |line|
         k, v = parse_line(line)
-        break PublicKey.parse(v) if hostname === k
+        break Destination.parse(v) if hostname === k
       end
     end
 
@@ -137,14 +137,14 @@ module I2P
     #   end
     #
     # @yield  [hostname, destination]
-    # @yieldparam [String] hostname
-    # @yieldparam [Key]    destination
+    # @yieldparam [String]      hostname
+    # @yieldparam [Destination] destination
     # @return [Enumerator]
     def each(&block)
       if block_given?
         each_line do |line|
           k, v = parse_line(line)
-          block.call(k, PublicKey.parse(v))
+          block.call(k, Destination.parse(v))
         end
       end
       enum_for(:each)
@@ -171,7 +171,7 @@ module I2P
     #
     # @return [String]
     def to_s
-      each.inject([]) { |result, kv| result.push(kv.join('=')) }.push('').join($/)
+      each.inject([]) { |result, (k, v)| result.push([k, v.to_base64].join('=')) }.push('').join($/)
     end
 
   protected

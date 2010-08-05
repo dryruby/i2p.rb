@@ -37,20 +37,19 @@ Examples
 
 ### Looking up the public key for an I2P name from hosts.txt
 
-    puts I2P::Hosts["forum.i2p"]
+    puts I2P::Hosts["forum.i2p"].to_base64
 
 ### Looking up the public key for an I2P name using SAM
 
     I2P::SAM::Client.open(:port => 7656) do |sam|
-      puts sam.lookup_name("forum.i2p")
+      puts sam.lookup_name("forum.i2p").to_base64
     end
 
 ### Generating a new key pair and I2P destination using SAM
 
     I2P::SAM::Client.open(:port => 7656) do |sam|
-      private_key, public_key = sam.generate_destination
-      puts "PRIVATE KEY:\n#{private_key}"
-      puts "PUBLIC KEY:\n#{public_key}"
+      key_pair = sam.generate_destination
+      puts key_pair.destination.to_base64
     end
 
 ### Using the I2P SDK and Streaming Library directly from JRuby

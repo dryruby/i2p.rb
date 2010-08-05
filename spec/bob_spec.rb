@@ -73,11 +73,19 @@ describe I2P::BOB do
   end
 
   describe "I2P::BOB::Client#verify" do
-    it "returns true for valid keys" do
+    it "returns true for valid key pairs" do
+      @client.verify(I2P::SAM::Client.open { |sam| sam.generate_dest }).should be_true
+    end
+
+    it "returns true for valid destinations" do
       @client.verify(I2P::Hosts['forum.i2p']).should be_true
     end
 
-    it "returns false for invalid keys" do
+    it "returns false for valid public keys" do
+      @client.verify(I2P::Hosts['forum.i2p'].public_key).should be_false
+    end
+
+    it "returns false for invalid inputs" do
       @client.verify('foobar').should be_false
     end
   end
