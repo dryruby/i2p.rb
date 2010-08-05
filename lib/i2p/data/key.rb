@@ -21,20 +21,6 @@ module I2P
     end
 
     ##
-    # @param  [Object] other
-    # @return [Boolean]
-    def eql?(other)
-      other.is_a?(Key) && self == other
-    end
-
-    ##
-    # @param  [Object] other
-    # @return [Boolean]
-    def ==(other)
-      to_s == other.to_s
-    end
-
-    ##
     # Returns the binary string representation of this key.
     #
     # @return [String]

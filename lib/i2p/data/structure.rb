@@ -42,6 +42,26 @@ module I2P
     alias_method :bytesize, :size
 
     ##
+    # Returns `true` if `other == self` and `other` has the same class as
+    # this data structure.
+    #
+    # @param  [Object] other
+    # @return [Boolean]
+    def eql?(other)
+      other.is_a?(self.class) && self == other
+    end
+
+    ##
+    # Returns `true` if `other` has the same binary string representation as
+    # this data structure.
+    #
+    # @param  [Object] other
+    # @return [Boolean]
+    def ==(other)
+      to_s == other.to_s
+    end
+
+    ##
     # Returns the Base64-encoded representation of this data structure.
     #
     # @return [String]
