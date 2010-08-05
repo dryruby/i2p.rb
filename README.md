@@ -15,6 +15,8 @@ Features
   protocol.
 * Supports I2P name resolution using both `hosts.txt` as well as SAM.
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
+* Bundles the I2P 0.8 [SDK][] and [Streaming Library][Streaming] for use
+  with [JRuby][],
 
 Examples
 --------
@@ -50,6 +52,16 @@ Examples
       puts "PRIVATE KEY:\n#{private_key}"
       puts "PUBLIC KEY:\n#{public_key}"
     end
+
+### Using the I2P SDK and Streaming Library directly from JRuby
+
+I2P.rb bundles the public-domain [I2P SDK][SDK] (`i2p.jar`) and [Streaming
+Library][Streaming] (`i2p/streaming.jar`) archives, which means that to
+[script][JRuby howto] the I2P Java client implementation from [JRuby][], you
+need only require these two files as follows:
+
+    require 'i2p.jar'
+    require 'i2p/streaming.jar'
 
 Documentation
 -------------
@@ -106,6 +118,11 @@ License
 I2P.rb is free and unencumbered public domain software. For more
 information, see <http://unlicense.org/> or the accompanying UNLICENSE file.
 
-[I2P]:       http://www.i2p2.de/
-[SAM]:       http://www.i2p2.de/samv3.html
-[Backports]: http://rubygems.org/gems/backports
+[I2P]:         http://www.i2p2.de/
+[SDK]:         http://www.i2p2.de/package-client.html
+[Streaming]:   http://www.i2p2.de/package-streaming.html
+[SAM]:         http://www.i2p2.de/samv3.html
+[BOB]:         http://bob.i2p.to/bridge.htm
+[JRuby]:       http://jruby.org/
+[JRuby howto]: http://kenai.com/projects/jruby/pages/CallingJavaFromJRuby
+[Backports]:   http://rubygems.org/gems/backports
