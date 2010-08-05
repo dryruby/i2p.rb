@@ -4,8 +4,9 @@ module I2P
   #
   # Defines a base class for I2P data structures.
   #
-  # @see http://docs.i2p2.de/core/net/i2p/data/DataStructure.html
-  # @see http://docs.i2p2.de/core/net/i2p/data/DataStructureImpl.html
+  # @see   http://docs.i2p2.de/core/net/i2p/data/DataStructure.html
+  # @see   http://docs.i2p2.de/core/net/i2p/data/DataStructureImpl.html
+  # @since 0.1.3
   class Structure
     ##
     # Parses a data structure from the given `base64` string.

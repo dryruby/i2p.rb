@@ -2,7 +2,8 @@ module I2P
   ##
   # **I2P key pair data structure.**
   #
-  # @see http://docs.i2p2.de/core/net/i2p/data/PrivateKeyFile.html
+  # @see   http://docs.i2p2.de/core/net/i2p/data/PrivateKeyFile.html
+  # @since 0.1.3
   class KeyPair < Structure
     BYTESIZE = 663 # minimum
 

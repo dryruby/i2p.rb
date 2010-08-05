@@ -6,7 +6,8 @@ module I2P
   # such as `RouterIdentity` and `Destination`, allowing routers and clients
   # to help manage denial of service attacks and the network utilization.
   #
-  # @see http://docs.i2p2.de/core/net/i2p/data/Certificate.html
+  # @see   http://docs.i2p2.de/core/net/i2p/data/Certificate.html
+  # @since 0.1.3
   class Certificate < Structure
     TYPE_NULL     = 0 # Null certificate
     TYPE_HASHCASH = 1 # Hashcash certificate

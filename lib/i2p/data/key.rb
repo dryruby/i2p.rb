@@ -24,6 +24,7 @@ module I2P
     # Returns `true` if this key is of the correct size.
     #
     # @return [Boolean]
+    # @since  0.1.3
     def valid?
       @data.size.eql?(self.class.const_get(:BYTESIZE))
     end

@@ -10,8 +10,9 @@ module I2P; module BOB
   #     ...
   #   end
   #
-  # @see http://www.i2p2.de/applications.html
-  # @see http://bob.i2p.to/bridge.html
+  # @see   http://www.i2p2.de/applications.html
+  # @see   http://bob.i2p.to/bridge.html
+  # @since 0.1.3
   class Client
     ##
     # Establishes a connection to the BOB bridge.

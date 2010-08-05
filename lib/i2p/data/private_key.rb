@@ -6,7 +6,8 @@ module I2P
   # represents only the exponent, not the primes, which are constant and
   # defined in the crypto spec.
   #
-  # @see http://docs.i2p2.de/core/net/i2p/data/PrivateKey.html
+  # @see   http://docs.i2p2.de/core/net/i2p/data/PrivateKey.html
+  # @since 0.1.3
   class PrivateKey < Key
     BYTESIZE = 256
   end

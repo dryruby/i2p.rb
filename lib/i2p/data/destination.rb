@@ -5,7 +5,8 @@ module I2P
   # Defines an endpoint in the I2P network. The destination may move around
   # in the network, but messages sent to the destination will reach it.
   #
-  # @see http://docs.i2p2.de/core/net/i2p/data/Destination.html
+  # @see   http://docs.i2p2.de/core/net/i2p/data/Destination.html
+  # @since 0.1.3
   class Destination < Structure
     BYTESIZE = 387 # minimum
 
