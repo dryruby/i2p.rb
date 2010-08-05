@@ -31,3 +31,7 @@ end
 describe I2P::Destination do
   # TODO
 end
+
+describe I2P::KeyPair do
+  # TODO
+end

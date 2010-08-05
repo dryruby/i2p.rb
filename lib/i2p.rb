@@ -40,6 +40,7 @@ module I2P
   autoload :PublicKey,         'i2p/data/public_key'
   autoload :SigningPublicKey,  'i2p/data/signing_public_key'
   autoload :Destination,       'i2p/data/destination'
+  autoload :KeyPair,           'i2p/data/key_pair'
 
   # Client protocols
   autoload :BOB,               'i2p/bob'
