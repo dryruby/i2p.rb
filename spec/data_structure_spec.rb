@@ -27,3 +27,7 @@ end
 describe I2P::SigningPublicKey do
   # TODO
 end
+
+describe I2P::Destination do
+  # TODO
+end
