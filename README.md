@@ -54,12 +54,12 @@ Examples
 
 ### Using the I2P SDK and Streaming Library directly from JRuby
 
-I2P.rb bundles the public-domain [I2P SDK][SDK] (`i2p.jar`) and [Streaming
-Library][Streaming] (`i2p/streaming.jar`) archives, which means that to
-[script][JRuby howto] the I2P Java client implementation from [JRuby][], you
-need only require these two files as follows:
+I2P.rb bundles the public-domain [I2P SDK][SDK] (`i2p/sdk.jar`) and
+[Streaming Library][Streaming] (`i2p/streaming.jar`) archives, which means
+that to [script][JRuby howto] the I2P Java client implementation from
+[JRuby][], you need only require these two files as follows:
 
-    require 'i2p.jar'
+    require 'i2p/sdk.jar'
     require 'i2p/streaming.jar'
 
 Documentation
