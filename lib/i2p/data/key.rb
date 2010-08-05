@@ -1,6 +1,6 @@
 module I2P
   ##
-  class Key
+  class Key < Structure
     ##
     # @param  [String] base64
     # @return [Key]
@@ -9,6 +9,10 @@ module I2P
       base64.gsub!('-', '+')
       self.new(base64.unpack('m').first)
     end
+
+    ##
+    # @return [String]
+    attr_accessor :data
 
     ##
     # @param  [String] data
@@ -38,11 +42,5 @@ module I2P
       base64.gsub!('+', '-')
       base64
     end
-
-    ##
-    class Public < Key; end
-
-    ##
-    class Private < Key; end
   end
 end

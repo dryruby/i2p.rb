@@ -124,7 +124,7 @@ module I2P
     def [](hostname)
       @cache[hostname.to_s] ||= each_line.find do |line|
         k, v = parse_line(line)
-        break Key::Public.parse(v) if hostname === k
+        break PublicKey.parse(v) if hostname === k
       end
     end
 
@@ -144,7 +144,7 @@ module I2P
       if block_given?
         each_line do |line|
           k, v = parse_line(line)
-          block.call(k, Key::Public.parse(v))
+          block.call(k, PublicKey.parse(v))
         end
       end
       enum_for(:each)

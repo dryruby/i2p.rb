@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), 'spec_helper')
 describe I2P::Hosts do
   describe "I2P::Hosts[]" do
     it "returns a public key for known hostnames" do
-      Hosts['forum.i2p'].should be_a(Key::Public)
+      Hosts['forum.i2p'].should be_a(PublicKey)
     end
 
     it "returns nil for unknown hostnames" do
@@ -67,7 +67,7 @@ describe I2P::Hosts do
 
   describe "I2P::Hosts#[]" do
     it "returns a public key for known hostnames" do
-      @hosts['forum.i2p'].should be_a(Key::Public)
+      @hosts['forum.i2p'].should be_a(PublicKey)
     end
 
     it "returns nil for unknown hostnames" do

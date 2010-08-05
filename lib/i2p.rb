@@ -27,12 +27,21 @@ end
 #
 # @see http://www.i2p2.de/download.html
 module I2P
+  # Name resolution
+  autoload :Hosts,       'i2p/hosts'
+
+  # Data structures
   autoload :Structure,   'i2p/data/structure'
   autoload :Certificate, 'i2p/data/certificate'
-  autoload :Hosts,       'i2p/hosts'
-  autoload :Key,         'i2p/key'
+  autoload :Key,         'i2p/data/key'
+  autoload :PrivateKey,  'i2p/data/private_key'
+  autoload :PublicKey,   'i2p/data/public_key'
+
+  # Client protocols
   autoload :BOB,         'i2p/bob'
   autoload :SAM,         'i2p/sam'
+
+  # Miscellaneous
   autoload :VERSION,     'i2p/version'
 
   # The path used to locate the `i2prouter` executable.

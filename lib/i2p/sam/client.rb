@@ -144,14 +144,14 @@ module I2P; module SAM
     # Returns the public key of the I2P destination corresponding to `name`.
     #
     # @example
-    #   sam.lookup_name("forum.i2p")         #=> #<I2P::Key::Public:...>
+    #   sam.lookup_name("forum.i2p")         #=> #<I2P::PublicKey:...>
     #
     # @param  [String, #to_s] name
-    # @return [Key::Public]
+    # @return [PublicKey]
     # @raise  [Error::KeyNotFound] if `name` was not found
     def lookup_name(name)
       send_msg(:naming, :lookup, :name => name.to_s)
-      Key::Public.parse(read_reply[:value])
+      PublicKey.parse(read_reply[:value])
     end
 
     ##
@@ -161,11 +161,11 @@ module I2P; module SAM
     # @example
     #   private_key, public_key = sam.generate_dest
     #
-    # @return [Array(Key::Private, Key::Public)]
+    # @return [Array(PrivateKey, PublicKey)]
     def generate_dest
       send_msg(:dest, :generate)
       keys = read_reply
-      [Key::Private.parse(keys[:priv]), Key::Public.parse(keys[:pub])]
+      [PrivateKey.parse(keys[:priv]), PublicKey.parse(keys[:pub])]
     end
     alias_method :generate_destination, :generate_dest
 

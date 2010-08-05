@@ -95,7 +95,7 @@ describe I2P::SAM::Client do
     before(:each) { @client.hello }
 
     it "returns a public key" do
-      @client.lookup_name('forum.i2p').should be_a(Key::Public)
+      @client.lookup_name('forum.i2p').should be_a(PublicKey)
     end
 
     it "returns the correct public key" do
@@ -129,8 +129,8 @@ describe I2P::SAM::Client do
 
     it "generates a new asymmetric key pair" do
       private_key, public_key = @client.generate_dest
-      private_key.should be_a(Key::Private)
-      public_key.should be_a(Key::Public)
+      private_key.should be_a(PrivateKey)
+      public_key.should be_a(PublicKey)
     end
   end
 end
