@@ -7,7 +7,7 @@ module I2P
   # to help manage denial of service attacks and the network utilization.
   #
   # @see http://docs.i2p2.de/core/net/i2p/data/Certificate.html
-  class Certificate
+  class Certificate < Structure
     TYPE_NULL     = 0 # Null certificate
     TYPE_HASHCASH = 1 # Hashcash certificate
     TYPE_HIDDEN   = 2 # Hidden certificate

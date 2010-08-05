@@ -27,6 +27,7 @@ end
 #
 # @see http://www.i2p2.de/download.html
 module I2P
+  autoload :Structure,   'i2p/data/structure'
   autoload :Certificate, 'i2p/data/certificate'
   autoload :Hosts,       'i2p/hosts'
   autoload :Key,         'i2p/key'
