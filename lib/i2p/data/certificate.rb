@@ -17,6 +17,18 @@ module I2P
     LENGTH_SIGNED_WITH_HASH = nil # TODO
 
     ##
+    # Reads a certificate from the given `input` stream.
+    #
+    # @param  [IO, StringIO] input
+    # @return [Certificate]
+    def self.read(input)
+      type    = input.read(1).unpack('c').first
+      length  = input.read(2).unpack('n').first
+      payload = length.zero? ? String.new : input.read(length)
+      self.new(type, payload)
+    end
+
+    ##
     # @return [Integer]
     attr_accessor :type
 
