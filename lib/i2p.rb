@@ -27,11 +27,12 @@ end
 #
 # @see http://www.i2p2.de/download.html
 module I2P
-  autoload :Hosts,   'i2p/hosts'
-  autoload :Key,     'i2p/key'
-  autoload :BOB,     'i2p/bob'
-  autoload :SAM,     'i2p/sam'
-  autoload :VERSION, 'i2p/version'
+  autoload :Certificate, 'i2p/data/certificate'
+  autoload :Hosts,       'i2p/hosts'
+  autoload :Key,         'i2p/key'
+  autoload :BOB,         'i2p/bob'
+  autoload :SAM,         'i2p/sam'
+  autoload :VERSION,     'i2p/version'
 
   # The path used to locate the `i2prouter` executable.
   PATH = (ENV['I2P_PATH'] || ENV['PATH']).split(File::PATH_SEPARATOR) unless defined?(PATH)
