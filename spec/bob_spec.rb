@@ -216,6 +216,15 @@ describe I2P::BOB do
     end
   end
 
+  describe "I2P::BOB::Client#option" do
+    before(:each) { @client.setnick(:spec) }
+    after(:each)  { @client.clear }
+
+    it "returns self" do
+      @client.option(:foo, :bar).should equal(@client)
+    end
+  end
+
   describe "I2P::BOB::Client#start" do
     it "returns self" do
       # too complicated to effectively test

@@ -32,6 +32,13 @@ module I2P; module BOB
     def self.open(options = {}, &block)
       client = self.new(options)
       client.connect
+      client.setnick(options[:nick])    if options[:nick]
+      client.setkeys(options[:keys])    if options[:keys]
+      client.inhost(options[:inhost])   if options[:inhost]
+      client.inport(options[:inport])   if options[:inport]
+      client.outhost(options[:outhost]) if options[:outhost]
+      client.outport(options[:outport]) if options[:outport]
+      client.quiet(options[:quiet])     if options[:quiet]
 
       unless block_given?
         client
@@ -226,6 +233,8 @@ module I2P; module BOB
     ##
     # Sets the inbound host name or IP address.
     #
+    # The default for new tunnels is `inhost("localhost")`.
+    #
     # @example
     #   bob.inhost('127.0.0.1')
     #
@@ -253,6 +262,8 @@ module I2P; module BOB
 
     ##
     # Sets the outbound host name or IP address.
+    #
+    # The default for new tunnels is `outhost("localhost")`.
     #
     # @example
     #   bob.outhost('127.0.0.1')
@@ -304,6 +315,21 @@ module I2P; module BOB
     alias_method :quiet=, :quiet
 
     ##
+    # Sets an I2P Control Protocol (I2CP) option for the current tunnel.
+    #
+    # @example
+    #   bob.option(key, value)
+    #
+    # @param  [String, #to_s] key
+    # @param  [String, #to_s] value
+    # @return [void]
+    def option(key, value)
+      send_command(:option, [key, value].join('='))
+      read_response # "#{key} set to #{value}"
+      self
+    end
+
+    ##
     # Starts and activates the current tunnel.
     #
     # @example
@@ -317,6 +343,7 @@ module I2P; module BOB
       read_response # "tunnel starting"
       self
     end
+    alias_method :start!, :start
 
     ##
     # Stops and inactivates the current tunnel.
@@ -331,6 +358,7 @@ module I2P; module BOB
       read_response # "tunnel stopping"
       self
     end
+    alias_method :stop!, :stop
 
     ##
     # Removes the current tunnel. The tunnel must be inactive.
@@ -345,6 +373,7 @@ module I2P; module BOB
       read_response # "cleared"
       self
     end
+    alias_method :clear!, :clear
 
   protected
 
