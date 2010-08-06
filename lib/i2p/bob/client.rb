@@ -238,7 +238,7 @@ module I2P; module BOB
     end
 
     ##
-    # Sets the inbound port number the tunnel listens on.
+    # Sets the inbound port number that the tunnel listens on.
     #
     # @example
     #   bob.inport(37337)
@@ -248,6 +248,34 @@ module I2P; module BOB
     def inport(port)
       send_command(:inport, port.to_i)
       read_response # "inbound port set"
+      self
+    end
+
+    ##
+    # Sets the outbound host name or IP address.
+    #
+    # @example
+    #   bob.outhost('127.0.0.1')
+    #
+    # @param  [String, #to_s] host
+    # @return [void]
+    def outhost(host)
+      send_command(:outhost, host.to_s)
+      read_response # "outhost set"
+      self
+    end
+
+    ##
+    # Sets the outbound port number that the tunnel connects to.
+    #
+    # @example
+    #   bob.outport(80)
+    #
+    # @param  [Integer, #to_i] port
+    # @return [void]
+    def outport(port)
+      send_command(:outport, port.to_i)
+      read_response # "outbound port set"
       self
     end
 

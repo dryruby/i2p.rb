@@ -181,6 +181,32 @@ describe I2P::BOB do
     end
   end
 
+  describe "I2P::BOB::Client#outhost" do
+    before(:each) { @client.setnick(:spec).newkeys }
+    after(:each)  { @client.clear }
+
+    it "requires an argument" do
+      lambda { @client.outhost }.should raise_error(ArgumentError)
+    end
+
+    it "returns self" do
+      @client.outhost('127.0.0.1').should equal(@client)
+    end
+  end
+
+  describe "I2P::BOB::Client#outport" do
+    before(:each) { @client.setnick(:spec).newkeys }
+    after(:each)  { @client.clear }
+
+    it "requires an argument" do
+      lambda { @client.outport }.should raise_error(ArgumentError)
+    end
+
+    it "returns self" do
+      @client.outport(80).should equal(@client)
+    end
+  end
+
   describe "I2P::BOB::Client#clear" do
     before(:each) { @client.setnick(:spec) }
 
