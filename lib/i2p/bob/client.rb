@@ -224,6 +224,34 @@ module I2P; module BOB
     end
 
     ##
+    # Sets the inbound host name or IP address.
+    #
+    # @example
+    #   bob.inhost('127.0.0.1')
+    #
+    # @param  [String, #to_s] host
+    # @return [void]
+    def inhost(host)
+      send_command(:inhost, host.to_s)
+      read_response # "inhost set"
+      self
+    end
+
+    ##
+    # Sets the inbound port number the tunnel listens on.
+    #
+    # @example
+    #   bob.inport(37337)
+    #
+    # @param  [Integer, #to_i] port
+    # @return [void]
+    def inport(port)
+      send_command(:inport, port.to_i)
+      read_response # "inbound port set"
+      self
+    end
+
+    ##
     # Clears the current tunnel nickname out of the list.
     #
     # @example

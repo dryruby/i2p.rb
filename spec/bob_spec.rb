@@ -73,6 +73,10 @@ describe I2P::BOB do
   end
 
   describe "I2P::BOB::Client#verify" do
+    it "requires an argument" do
+      lambda { @client.verify }.should raise_error(ArgumentError)
+    end
+
     it "returns true for valid key pairs" do
       @client.verify(I2P::SAM::Client.open { |sam| sam.generate_dest }).should be_true
     end
@@ -91,7 +95,11 @@ describe I2P::BOB do
   end
 
   describe "I2P::BOB::Client#setnick" do
-    after(:each)  { @client.clear }
+    after(:each)  { @client.clear rescue nil }
+
+    it "requires an argument" do
+      lambda { @client.setnick }.should raise_error(ArgumentError)
+    end
 
     it "returns self" do
       @client.setnick(:spec).should equal(@client)
@@ -144,6 +152,32 @@ describe I2P::BOB do
 
     it "returns self" do
       @client.setkeys(@client.getkeys).should equal(@client)
+    end
+  end
+
+  describe "I2P::BOB::Client#inhost" do
+    before(:each) { @client.setnick(:spec).newkeys }
+    after(:each)  { @client.clear }
+
+    it "requires an argument" do
+      lambda { @client.inhost }.should raise_error(ArgumentError)
+    end
+
+    it "returns self" do
+      @client.inhost('127.0.0.1').should equal(@client)
+    end
+  end
+
+  describe "I2P::BOB::Client#inport" do
+    before(:each) { @client.setnick(:spec).newkeys }
+    after(:each)  { @client.clear }
+
+    it "requires an argument" do
+      lambda { @client.inport }.should raise_error(ArgumentError)
+    end
+
+    it "returns self" do
+      @client.inport(37337).should equal(@client)
     end
   end
 
