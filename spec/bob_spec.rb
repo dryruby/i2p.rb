@@ -91,14 +91,59 @@ describe I2P::BOB do
   end
 
   describe "I2P::BOB::Client#setnick" do
+    #after(:each)  { @client.clear }
+
     it "returns self" do
-      @client.setnick(:foo).should equal(@client)
+      @client.setnick(:spec).should equal(@client)
     end
   end
 
   describe "I2P::BOB::Client#getnick" do
+    before(:each) { @client.setnick(:spec) }
+    #after(:each)  { @client.clear }
+
     it "returns self" do
-      @client.getnick(:foo).should equal(@client)
+      @client.getnick(:spec).should equal(@client)
+    end
+  end
+
+  describe "I2P::BOB::Client#newkeys" do
+    before(:each) { @client.setnick(:spec) }
+    #after(:each)  { @client.clear }
+
+    it "returns a destination" do
+      @client.newkeys.should be_a(Destination)
+    end
+  end
+
+  describe "I2P::BOB::Client#getdest" do
+    before(:each) { @client.setnick(:spec).newkeys }
+    #after(:each)  { @client.clear }
+
+    it "returns a destination" do
+      @client.getdest.should be_a(Destination)
+    end
+  end
+
+  describe "I2P::BOB::Client#getkeys" do
+    before(:each) { @client.setnick(:spec).newkeys }
+    #after(:each)  { @client.clear }
+
+    it "returns a key pair" do
+      @client.getkeys.should be_a(KeyPair)
+    end
+  end
+
+  describe "I2P::BOB::Client#setkeys" do
+    before(:each) { @client.setnick(:spec).newkeys }
+    #after(:each)  { @client.clear }
+
+    it "requires an argument" do
+      lambda { @client.setkeys }.should raise_error(ArgumentError)
+    end
+
+    it "returns self" do
+      @client.setkeys(@client.getkeys).should equal(@client)
     end
   end
 end

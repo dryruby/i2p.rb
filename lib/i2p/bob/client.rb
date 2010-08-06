@@ -173,6 +173,56 @@ module I2P; module BOB
       self
     end
 
+    ##
+    # Generates a new keypair for the current tunnel nickname.
+    #
+    # @example
+    #   bob.newkeys
+    #
+    # @return [Destination]
+    def newkeys
+      send_command(:newkeys)
+      Destination.parse(read_response)
+    end
+
+    ##
+    # Returns the destination for the current tunnel nickname.
+    #
+    # @example
+    #   bob.getdest
+    #
+    # @return [Destination]
+    def getdest
+      send_command(:getdest)
+      Destination.parse(read_response)
+    end
+
+    ##
+    # Returns the key pair for the current tunnel nickname.
+    #
+    # @example
+    #   bob.getkeys
+    #
+    # @return [KeyPair]
+    def getkeys
+      send_command(:getkeys)
+      KeyPair.parse(read_response)
+    end
+
+    ##
+    # Sets the key pair for the current tunnel nickname.
+    #
+    # @example
+    #   bob.setkeys(I2P::KeyPair.parse("..."))
+    #
+    # @param  [KeyPair, #to_s] key_pair
+    # @return [void]
+    def setkeys(key_pair)
+      send_command(:setkeys, key_pair.respond_to?(:to_base64) ? key_pair.to_base64 : key_pair.to_s)
+      read_response # the Base64-encoded destination
+      self
+    end
+
   protected
 
     ##
