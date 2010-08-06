@@ -280,6 +280,30 @@ module I2P; module BOB
     end
 
     ##
+    # Toggles whether to send the incoming destination key to listening
+    # sockets.
+    #
+    # The default for new tunnels is `quiet(false)`.
+    #
+    # @example Enabling quiet mode
+    #   bob.quiet
+    #   bob.quiet(true)
+    #   bob.quiet = true
+    #
+    # @example Disabling quiet mode
+    #   bob.quiet(false)
+    #   bob.quiet = false
+    #
+    # @param  [Boolean] value
+    # @return [void]
+    def quiet(value = true)
+      send_command(:quiet, value.to_s)
+      read_response # "Quiet set"
+      self
+    end
+    alias_method :quiet=, :quiet
+
+    ##
     # Starts and activates the current tunnel.
     #
     # @example
