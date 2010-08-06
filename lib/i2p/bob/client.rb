@@ -10,9 +10,20 @@ module I2P; module BOB
   #     ...
   #   end
   #
+  # @example Generating a new destination
+  #   I2P::BOB::Client.open(:nickname => :foo) do |bob|
+  #     bob.newkeys
+  #   end
+  #
+  # @example Generating a new key pair
+  #   I2P::BOB::Client.open(:nickname => :foo) do |bob|
+  #     bob.newkeys
+  #     bob.getkeys
+  #   end
+  #
   # @see   http://www.i2p2.de/applications.html
   # @see   http://bob.i2p.to/bridge.html
-  # @since 0.1.3
+  # @since 0.1.4
   class Client
     ##
     # Establishes a connection to the BOB bridge.
@@ -32,13 +43,13 @@ module I2P; module BOB
     def self.open(options = {}, &block)
       client = self.new(options)
       client.connect
-      client.setnick(options[:nick])    if options[:nick]
-      client.setkeys(options[:keys])    if options[:keys]
-      client.inhost(options[:inhost])   if options[:inhost]
-      client.inport(options[:inport])   if options[:inport]
-      client.outhost(options[:outhost]) if options[:outhost]
-      client.outport(options[:outport]) if options[:outport]
-      client.quiet(options[:quiet])     if options[:quiet]
+      client.setnick(options[:nickname]) if options[:nickname]
+      client.setkeys(options[:keys])     if options[:keys]
+      client.quiet(options[:quiet])      if options[:quiet]
+      client.inhost(options[:inhost])    if options[:inhost]
+      client.inport(options[:inport])    if options[:inport]
+      client.outhost(options[:outhost])  if options[:outhost]
+      client.outport(options[:outport])  if options[:outport]
 
       unless block_given?
         client
@@ -57,6 +68,18 @@ module I2P; module BOB
     #
     # @return [TCPSocket]
     attr_reader :socket
+
+    ##
+    # Returns the host name or IP address of the BOB bridge.
+    #
+    # @return [String]
+    attr_reader :host
+
+    ##
+    # Returns the port number of the BOB bridge.
+    #
+    # @return [Integer]
+    attr_reader :port
 
     ##
     # Initializes a new client instance.
@@ -136,6 +159,7 @@ module I2P; module BOB
       read_response # "Bye!"
       disconnect
     end
+    alias_method :quit!, :quit
 
     ##
     # Verifies a Base64-formatted key pair or destination, returning `true`
@@ -153,35 +177,36 @@ module I2P; module BOB
     end
 
     ##
-    # Creates a new tunnel nickname.
+    # Creates a new tunnel with the given nickname.
     #
     # @example
     #   bob.setnick(:foo)
     #
-    # @param  [String, #to_s] nick
+    # @param  [String, #to_s] nickname
     # @return [void]
-    def setnick(nick)
-      send_command(:setnick, nick.to_s)
-      read_response # "Nickname set to #{nick}"
+    def setnick(nickname)
+      send_command(:setnick, @options[:nickname] = nickname.to_s)
+      read_response # "Nickname set to #{nickname}"
       self
     end
+    alias_method :nickname=, :setnick
 
     ##
-    # Selects an existing tunnel nickname.
+    # Selects an existing tunnel with the given nickname.
     #
     # @example
     #   bob.getnick(:foo)
     #
-    # @param  [String, #to_s] nick
+    # @param  [String, #to_s] nickname
     # @return [void]
-    def getnick(nick)
-      send_command(:getnick, nick.to_s)
-      read_response # "Nickname set to #{nick}"
+    def getnick(nickname)
+      send_command(:getnick, @options[:nickname] = nickname.to_s)
+      read_response # "Nickname set to #{nickname}"
       self
     end
 
     ##
-    # Generates a new keypair for the current tunnel nickname.
+    # Generates a new keypair for the current tunnel.
     #
     # @example
     #   bob.newkeys
@@ -193,45 +218,50 @@ module I2P; module BOB
     end
 
     ##
-    # Returns the destination for the current tunnel nickname.
+    # Returns the destination for the current tunnel.
     #
     # @example
     #   bob.getdest
     #
     # @return [Destination]
+    # @raise  [Error] if no tunnel has been selected
     def getdest
       send_command(:getdest)
       Destination.parse(read_response)
     end
 
     ##
-    # Returns the key pair for the current tunnel nickname.
+    # Returns the key pair for the current tunnel.
     #
     # @example
     #   bob.getkeys
     #
     # @return [KeyPair]
+    # @raise  [Error] if no public key has been set
     def getkeys
       send_command(:getkeys)
       KeyPair.parse(read_response)
     end
 
     ##
-    # Sets the key pair for the current tunnel nickname.
+    # Sets the key pair for the current tunnel.
     #
     # @example
     #   bob.setkeys(I2P::KeyPair.parse("..."))
     #
     # @param  [KeyPair, #to_s] key_pair
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     def setkeys(key_pair)
-      send_command(:setkeys, key_pair.respond_to?(:to_base64) ? key_pair.to_base64 : key_pair.to_s)
+      send_command(:setkeys, @options[:keys] = key_pair.respond_to?(:to_base64) ? key_pair.to_base64 : key_pair.to_s)
       read_response # the Base64-encoded destination
       self
     end
+    alias_method :keys=, :setkeys
 
     ##
-    # Sets the inbound host name or IP address.
+    # Sets the inbound host name or IP address that the current tunnel
+    # listens on.
     #
     # The default for new tunnels is `inhost("localhost")`.
     #
@@ -240,28 +270,33 @@ module I2P; module BOB
     #
     # @param  [String, #to_s] host
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     def inhost(host)
-      send_command(:inhost, host.to_s)
+      send_command(:inhost, @options[:inhost] = host.to_s)
       read_response # "inhost set"
       self
     end
+    alias_method :inhost=, :inhost
 
     ##
-    # Sets the inbound port number that the tunnel listens on.
+    # Sets the inbound port number that the current tunnel listens on.
     #
     # @example
     #   bob.inport(37337)
     #
     # @param  [Integer, #to_i] port
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     def inport(port)
-      send_command(:inport, port.to_i)
+      send_command(:inport, @options[:inport] = port.to_i)
       read_response # "inbound port set"
       self
     end
+    alias_method :inport=, :inport
 
     ##
-    # Sets the outbound host name or IP address.
+    # Sets the outbound host name or IP address that the current tunnel
+    # connects to.
     #
     # The default for new tunnels is `outhost("localhost")`.
     #
@@ -270,25 +305,29 @@ module I2P; module BOB
     #
     # @param  [String, #to_s] host
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     def outhost(host)
-      send_command(:outhost, host.to_s)
+      send_command(:outhost, @options[:outhost] = host.to_s)
       read_response # "outhost set"
       self
     end
+    alias_method :outhost=, :outhost
 
     ##
-    # Sets the outbound port number that the tunnel connects to.
+    # Sets the outbound port number that the current tunnel connects to.
     #
     # @example
     #   bob.outport(80)
     #
     # @param  [Integer, #to_i] port
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     def outport(port)
-      send_command(:outport, port.to_i)
+      send_command(:outport, @options[:output] = port.to_i)
       read_response # "outbound port set"
       self
     end
+    alias_method :outport=, :outport
 
     ##
     # Toggles whether to send the incoming destination key to listening
@@ -307,8 +346,9 @@ module I2P; module BOB
     #
     # @param  [Boolean] value
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     def quiet(value = true)
-      send_command(:quiet, value.to_s)
+      send_command(:quiet, @options[:quiet] = value.to_s)
       read_response # "Quiet set"
       self
     end
@@ -323,6 +363,7 @@ module I2P; module BOB
     # @param  [String, #to_s] key
     # @param  [String, #to_s] value
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     def option(key, value)
       send_command(:option, [key, value].join('='))
       read_response # "#{key} set to #{value}"
@@ -352,6 +393,7 @@ module I2P; module BOB
     #   bob.stop
     #
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     # @raise  [Error] if the tunnel is already inactive
     def stop
       send_command(:stop)
@@ -367,6 +409,7 @@ module I2P; module BOB
     #   bob.clear
     #
     # @return [void]
+    # @raise  [Error] if no tunnel has been selected
     # @raise  [Error] if the tunnel is still active
     def clear
       send_command(:clear)
@@ -388,7 +431,7 @@ module I2P; module BOB
     end
 
     ##
-    # Sends a command line over the BOB bridge socket.
+    # Sends a text line over the BOB bridge socket.
     #
     # @param  [String, #to_s] line
     # @return [void]
@@ -415,7 +458,7 @@ module I2P; module BOB
     end
 
     ##
-    # Reads a response line from the BOB bridge socket.
+    # Reads a text line from the BOB bridge socket.
     #
     # @return [String]
     def read_line

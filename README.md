@@ -11,6 +11,7 @@ Features
 * Supports checking whether I2P is installed in the user's current `PATH`
   and whether the I2P router is currently running.
 * Supports starting, restarting and stopping the I2P router daemon.
+* Implements the [I2P Basic Open Bridge (BOB)][BOB] protocol.
 * Implements the basics of the [I2P Simple Anonymous Messaging (SAM)][SAM]
   protocol.
 * Supports I2P name resolution using both `hosts.txt` as well as SAM.

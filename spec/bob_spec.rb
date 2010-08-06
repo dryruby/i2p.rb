@@ -244,4 +244,61 @@ describe I2P::BOB do
       @client.clear.should equal(@client)
     end
   end
+
+  describe "I2P::BOB::Client#status" do
+    before(:each) { @client.setnick(:spec) }
+    after(:each)  { @client.clear }
+
+    it "requires an argument" do
+      lambda { @client.status }.should raise_error(ArgumentError)
+    end
+
+    it "returns a hash" do
+      @client.status(:spec).should be_a(Hash)
+    end
+  end
+
+  describe "I2P::BOB::Client#show" do
+    before(:each) { @client.setnick(:spec) }
+    after(:each)  { @client.clear }
+
+    it "returns a hash" do
+      @client.show.should be_a(Hash)
+    end
+  end
+
+  describe "I2P::BOB::Client#list" do
+    before(:each) { @client.setnick(:spec) }
+    after(:each)  { @client.clear }
+
+    it "returns a hash" do
+      @client.list.should be_a(Hash)
+    end
+
+    it "returns a hash keyed by tunnel names" do
+      # TODO
+    end
+  end
+
+  describe "I2P::BOB::Client#help without an argument" do
+    before(:each) { @client.setnick(:spec) }
+    after(:each)  { @client.clear }
+
+    it "returns a hash" do
+      @client.help.should be_a(Hash)
+    end
+  end
+
+  describe "I2P::BOB::Client#help with an argument" do
+    before(:each) { @client.setnick(:spec) }
+    after(:each)  { @client.clear }
+
+    it "accepts an argument" do
+      lambda { @client.help(:list) }.should_not raise_error(ArgumentError)
+    end
+
+    it "returns a string" do
+      @client.help(:list).should be_a(String)
+    end
+  end
 end
