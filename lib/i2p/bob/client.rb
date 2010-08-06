@@ -280,12 +280,42 @@ module I2P; module BOB
     end
 
     ##
-    # Clears the current tunnel nickname out of the list.
+    # Starts and activates the current tunnel.
+    #
+    # @example
+    #   bob.start
+    #
+    # @return [void]
+    # @raise  [Error] if the tunnel settings are incomplete
+    # @raise  [Error] if the tunnel is already active
+    def start
+      send_command(:start)
+      read_response # "tunnel starting"
+      self
+    end
+
+    ##
+    # Stops and inactivates the current tunnel.
+    #
+    # @example
+    #   bob.stop
+    #
+    # @return [void]
+    # @raise  [Error] if the tunnel is already inactive
+    def stop
+      send_command(:stop)
+      read_response # "tunnel stopping"
+      self
+    end
+
+    ##
+    # Removes the current tunnel. The tunnel must be inactive.
     #
     # @example
     #   bob.clear
     #
     # @return [void]
+    # @raise  [Error] if the tunnel is still active
     def clear
       send_command(:clear)
       read_response # "cleared"

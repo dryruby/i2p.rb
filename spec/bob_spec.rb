@@ -207,6 +207,18 @@ describe I2P::BOB do
     end
   end
 
+  describe "I2P::BOB::Client#start" do
+    it "returns self" do
+      # too complicated to effectively test
+    end
+  end
+
+  describe "I2P::BOB::Client#stop" do
+    it "returns self" do
+      # too complicated to effectively test
+    end
+  end
+
   describe "I2P::BOB::Client#clear" do
     before(:each) { @client.setnick(:spec) }
 
