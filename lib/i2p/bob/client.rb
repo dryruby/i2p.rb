@@ -223,6 +223,19 @@ module I2P; module BOB
       self
     end
 
+    ##
+    # Clears the current tunnel nickname out of the list.
+    #
+    # @example
+    #   bob.clear
+    #
+    # @return [void]
+    def clear
+      send_command(:clear)
+      read_response # "cleared"
+      self
+    end
+
   protected
 
     ##
