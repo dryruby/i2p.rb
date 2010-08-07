@@ -11,13 +11,16 @@ Features
 * Supports checking whether I2P is installed in the user's current `PATH`
   and whether the I2P router is currently running.
 * Supports starting, restarting and stopping the I2P router daemon.
-* Implements the [I2P Basic Open Bridge (BOB)][BOB] protocol.
-* Implements the basics of the [I2P Simple Anonymous Messaging (SAM)][SAM]
-  protocol.
+* Implements the [I2P Basic Open Bridge (BOB)][BOB] protocol in full.
+* Implements the [I2P Simple Anonymous Messaging (SAM)][SAM] protocol
+  basics.
 * Supports I2P name resolution using both `hosts.txt` as well as SAM.
+* Provides I2P tunnel creation and management using BOB.
+* Provides a standard socket class for easily connecting to I2P destinations
+  and eepsites without any need for manual tunnel setup.
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
-* Bundles the I2P 0.8 [SDK][] and [Streaming Library][Streaming] for use
-  with [JRuby][],
+* Bundles the I2P 0.8 [SDK][] and [Streaming][] libraries for use with
+  [JRuby][],
 
 Examples
 --------
@@ -53,21 +56,15 @@ Examples
       puts key_pair.destination.to_base64
     end
 
-### Creating an inproxy tunnel to an eepsite using BOB
+### Opening a socket to an I2P destination using BOB
 
-    I2P::BOB::Tunnel.start(:inport => 12345) do |tunnel|
-      sleep 0.1 until tunnel.running?
-
-      TCPSocket.open("127.0.0.1", 12345) do |socket|
-        socket.puts "bob.i2p" # the I2P destination
-
-        socket.write "HEAD / HTTP/1.1\r\n\r\n"
-        socket.flush
-        until (line = socket.readline).chomp.empty?
-          puts line
-        end
-        socket.close
+    I2P::BOB::Socket.open("forum.i2p") do |socket|
+      socket.write "HEAD / HTTP/1.1\r\n\r\n"
+      socket.flush
+      until (line = socket.readline).chomp.empty?
+        puts line
       end
+      socket.close
     end
 
 ### Creating an outproxy tunnel to your SSH daemon using BOB

@@ -2,9 +2,29 @@ module I2P; module BOB
   ##
   # **I2P Basic Open Bridge (BOB) socket.**
   #
-  # @example Connecting to an eepsite
-  #   I2P::BOB::Socket.open("forum.i2p") do |socket|
-  #     ...
+  # This class works just like Ruby's standard `TCPSocket` except that it
+  # uses I2P name resolution and connectivity. It allows you to open a
+  # socket to an I2P destination using either a Base64-encoded
+  # {I2P::Destination destination address} or a friendly I2P name such as
+  # `"forum.i2p"` or `"trac.i2p2.i2p"`.
+  #
+  # Under the covers, the class will create a BOB {I2P::BOB::Tunnel tunnel}
+  # to the given destination from a random `localhost` port which it then
+  # connects to in the usual `TCPSocket` manner. From thereon out, all
+  # socket input and output is transported by BOB to and from the I2P
+  # network. When the socket is closed, the BOB tunnel is removed as well.
+  #
+  # Note that establishing a new tunnel can take a while (typically, from 5
+  # to 20 seconds).
+  #
+  # @example Opening a socket to an I2P destination using BOB
+  #   I2P::BOB::Socket.open("bob.i2p") do |socket|
+  #     socket.write "HEAD / HTTP/1.1\r\n\r\n"
+  #     socket.flush
+  #     until (line = socket.readline).chomp.empty?
+  #       puts line
+  #     end
+  #     socket.close
   #   end
   #
   # @see   http://ruby-doc.org/core/classes/TCPSocket.html
