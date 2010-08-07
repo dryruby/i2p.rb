@@ -18,6 +18,7 @@ module I2P
     DEFAULT_PORT     = (ENV['I2P_BOB_PORT'] || 2827).to_i
 
     autoload :Client, 'i2p/bob/client'
+    autoload :Tunnel, 'i2p/bob/tunnel'
 
     ##
     # **I2P Basic Open Bridge (BOB) protocol error conditions.**

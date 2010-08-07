@@ -1,6 +1,6 @@
 require File.join(File.dirname(__FILE__), 'spec_helper')
 
-describe I2P::BOB do
+describe I2P::BOB::Client do
   describe "I2P::BOB::Client.open" do
     it "returns a new BOB client instance" do
       BOB::Client.open.should be_a(BOB::Client)

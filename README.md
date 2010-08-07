@@ -53,6 +53,33 @@ Examples
       puts key_pair.destination.to_base64
     end
 
+### Creating an inproxy tunnel to an eepsite using BOB
+
+    I2P::BOB::Tunnel.start(:inport => 12345) do |tunnel|
+      sleep 0.1 until tunnel.running?
+
+      TCPSocket.open("127.0.0.1", 12345) do |socket|
+        socket.puts "bob.i2p" # the I2P destination
+
+        socket.write "HEAD / HTTP/1.1\r\n\r\n"
+        socket.flush
+        until (line = socket.readline).chomp.empty?
+          puts line
+        end
+        socket.close
+      end
+    end
+
+### Creating an outproxy tunnel to your SSH daemon using BOB
+
+    tunnel = I2P::BOB::Tunnel.start({
+      :nickname => :myssh,
+      :outhost  => "127.0.0.1",
+      :outport  => 22, # SSH port
+      :quiet    => true,
+    })
+    puts tunnel.destination.to_base64
+
 ### Using the I2P SDK and Streaming Library directly from JRuby
 
 I2P.rb bundles the public-domain [I2P SDK][SDK] (`i2p/sdk.jar`) and
