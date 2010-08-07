@@ -43,7 +43,15 @@ module I2P; module BOB
     def self.open(options = {}, &block)
       client = self.new(options)
       client.connect
-      client.setnick(options[:nickname]) if options[:nickname]
+
+      if options[:nickname]
+        begin
+          client.getnick(options[:nickname])
+        rescue Error => e
+          client.setnick(options[:nickname])
+        end
+      end
+
       client.setkeys(options[:keys])     if options[:keys]
       client.quiet(options[:quiet])      if options[:quiet]
       client.inhost(options[:inhost])    if options[:inhost]
@@ -55,7 +63,10 @@ module I2P; module BOB
         client
       else
         begin
-          result = block.call(client)
+          result = case block.arity
+            when 1 then block.call(client)
+            else client.instance_eval(&block)
+          end
         ensure
           client.disconnect
         end
@@ -94,7 +105,12 @@ module I2P; module BOB
       @host    = (@options.delete(:host) || DEFAULT_HOST).to_s
       @port    = (@options.delete(:port) || DEFAULT_PORT).to_i
 
-      block.call(self) if block_given?
+      if block_given?
+        case block.arity
+          when 1 then block.call(self)
+          else instance_eval(&block)
+        end
+      end
     end
 
     ##
@@ -332,6 +348,9 @@ module I2P; module BOB
     ##
     # Toggles whether to send the incoming destination key to listening
     # sockets.
+    #
+    # This only applies to outbound tunnels and has no effect on inbound
+    # tunnels.
     #
     # The default for new tunnels is `quiet(false)`.
     #
