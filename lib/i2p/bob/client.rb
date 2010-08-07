@@ -140,7 +140,7 @@ module I2P; module BOB
     def connect
       disconnect if connected?
       @socket = TCPSocket.new(@host, @port)
-      @socket.setsockopt(Socket::SOL_SOCKET, Socket::SO_KEEPALIVE, true)
+      @socket.setsockopt(::Socket::SOL_SOCKET, ::Socket::SO_KEEPALIVE, true)
       read_line # "BOB 00.00.0D"
       read_line # "OK"
       self

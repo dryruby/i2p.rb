@@ -55,7 +55,10 @@ module I2P; module BOB
 
       if block_given?
         begin
-          result = block.call(tunnel)
+          result = case block.arity
+            when 1 then block.call(tunnel)
+            else tunnel.instance_eval(&block)
+          end
         ensure
           tunnel.stop
         end
@@ -72,6 +75,15 @@ module I2P; module BOB
     # @return [void]
     def self.stop(nickname)
       self.new(nickname).stop
+    end
+
+    ##
+    # Removes an existing tunnel of the given `nickname`.
+    #
+    # @param  [String, #to_s]
+    # @return [void]
+    def self.remove(nickname)
+      self.new(nickname).remove
     end
 
     ##
@@ -282,12 +294,25 @@ module I2P; module BOB
     #
     # @return [Boolean]
     def stopping?
-      # TODO
+      sleep(2.0) # FIXME
+      nil # TODO
     end
 
-    def socket
-      client.socket
+    ##
+    # Shuts down this tunnel and removes the tunnel from the BOB bridge.
+    #
+    # @return [void]
+    # @see    Client#clear
+    # @since  0.1.5
+    def remove
+      client do |client|
+        client.stop
+        sleep 0.1 while stopping?
+        client.clear
+      end
+      self
     end
+    alias_method :remove!, :remove
 
     ##
     # Returns a {I2P::BOB::Client} instance for accessing low-level

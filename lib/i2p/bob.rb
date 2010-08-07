@@ -19,6 +19,7 @@ module I2P
 
     autoload :Client, 'i2p/bob/client'
     autoload :Tunnel, 'i2p/bob/tunnel'
+    autoload :Socket, 'i2p/bob/socket'
 
     ##
     # **I2P Basic Open Bridge (BOB) protocol error conditions.**
